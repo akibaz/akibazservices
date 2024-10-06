@@ -6,9 +6,14 @@
   <groupId>com.akibaz</groupId>
   <artifactId>akibazservices</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
   <name>akibazservices</name>
   <url>http://www.akibaz.com</url>
+
+  <modules>
+    <module>customer</module>
+  </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
