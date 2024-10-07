@@ -1,6 +1,6 @@
 services:
-  postgres:
-    container_name: postgresDB
+  postgres_customer:
+    container_name: postgresDB-customer
     image: postgres
     environment:
       POSTGRES_USER: akiba
@@ -9,7 +9,22 @@ services:
     ports:
       - "5443:5432"
     volumes:
-      - postgres_db:/data/postgres
+      - postgres_customer_db:/data/postgres
+    networks:
+      - postgres_net
+    restart: unless-stopped
+
+  postgres_fraud:
+    container_name: postgresDB-fraud
+    image: postgres
+    environment:
+      POSTGRES_USER: akiba
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    ports:
+      - "5453:5432"
+    volumes:
+      - postgres_fraud_db:/data/postgres
     networks:
       - postgres_net
     restart: unless-stopped
@@ -29,12 +44,14 @@ services:
       - postgres_net
     restart: unless-stopped
     depends_on:
-      - postgres
+      - postgres_customer
+      - postgres_fraud
 
 
 
 volumes:
-  postgres_db:
+  postgres_customer_db:
+  postgres_fraud_db:
   pgadmin_db:
 
 networks:
