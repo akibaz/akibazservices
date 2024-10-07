@@ -9,7 +9,7 @@
   <packaging>pom</packaging>
 
   <name>akibazservices</name>
-  <url>http://www.akibaz.com</url>
+  <url>https://www.akibaz.com</url>
 
   <modules>
     <module>customer</module>
@@ -27,6 +27,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
         <version>${spring.boot.dependencies.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
