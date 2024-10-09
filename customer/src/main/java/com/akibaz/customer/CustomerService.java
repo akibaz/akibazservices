@@ -22,7 +22,7 @@ public class CustomerService {
         customerDAO.insertCustomer(newCustomer);
         // todo: check if customer is fraudster
         FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://localhost:8081/api/v1/fraud-check/{customerId}",
+                "http://FRAUD/api/v1/fraud-check/{customerId}",
                 FraudCheckResponse.class,
                 newCustomer.getId()
         );
