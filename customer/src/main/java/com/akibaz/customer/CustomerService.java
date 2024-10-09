@@ -1,5 +1,7 @@
 package com.akibaz.customer;
 
+import com.akibaz.clients.fraud.FraudCheckResponse;
+import com.akibaz.clients.fraud.FraudClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -9,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 public class CustomerService {
     private final CustomerDAO customerDAO;
     private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
 
     public void registerCustomer(CustomerRegistrationRequest registrationRequest) {
         Customer newCustomer = Customer.builder()
@@ -21,11 +24,12 @@ public class CustomerService {
         // todo: check if email not taken
         customerDAO.insertCustomer(newCustomer);
         // todo: check if customer is fraudster
-        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
-                "http://FRAUD/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                newCustomer.getId()
-        );
+//        FraudCheckResponse fraudCheckResponse = restTemplate.getForObject(
+//                "http://FRAUD/api/v1/fraud-check/{customerId}",
+//                FraudCheckResponse.class,
+//                newCustomer.getId()
+//        );
+        FraudCheckResponse fraudCheckResponse = fraudClient.isFraudster(newCustomer.getId());
 
         if (fraudCheckResponse.isFraudster()) {
             throw new IllegalStateException("fraudster.");
