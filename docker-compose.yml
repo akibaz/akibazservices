@@ -1,0 +1,39 @@
+services:
+  db:
+    container_name: customer_service_db
+    image: postgres
+    environment:
+      POSTGRES_USER: akibaz
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - customer_service_db:/data/postgres
+    networks:
+      - customer_service_net
+    restart: unless-stopped
+  pgAdmin:
+    container_name: customer_service_pgAdmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - customer_service_pgadmin:/var/lib/pgadmin
+    networks:
+      - customer_service_net
+    restart: unless-stopped
+    depends_on:
+      - db
+
+volumes:
+  customer_service_db:
+  customer_service_pgadmin:
+
+networks:
+  customer_service_net:
+    driver: bridge
