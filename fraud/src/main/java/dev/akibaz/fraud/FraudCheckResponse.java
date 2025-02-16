@@ -1,4 +1,4 @@
 package dev.akibaz.fraud;
 
-public record FraudCheckResponse() {
+public record FraudCheckResponse(Boolean isFraudster) {
 }
